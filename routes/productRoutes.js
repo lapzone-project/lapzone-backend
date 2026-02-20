@@ -1,16 +1,17 @@
-const express = require('express');
-const router = express.Router();
-const { 
+import express from 'express';
+import { 
   getProducts, 
   getProductById, 
   createProduct, 
   updateProduct, 
   deleteProduct,
   updateStock 
-} = require('../controllers/productController');
-const auth = require('../middleware/auth');
-const checkRole = require('../middleware/checkRole');
-const { upload } = require('../utils/cloudinary');
+} from '../controllers/productController.js';
+import auth from '../middleware/auth.js';
+import checkRole from '../middleware/checkRole.js';
+import { upload } from '../utils/cloudinary.js';
+
+const router = express.Router();
 
 // Public routes
 router.get('/', getProducts);
@@ -24,4 +25,4 @@ router.patch('/:id/stock', auth, checkRole(['STAFF', 'OWNER']), updateStock);
 // Owner only routes
 router.delete('/:id', auth, checkRole(['OWNER']), deleteProduct);
 
-module.exports = router;
+export default router;

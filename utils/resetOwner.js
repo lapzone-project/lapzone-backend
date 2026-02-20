@@ -1,7 +1,11 @@
-const mongoose = require('mongoose');
-const User = require('../models/User');
-const dotenv = require('dotenv');
-const path = require('path');
+import mongoose from 'mongoose';
+import User from '../models/User.js';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Explicitly load .env from the root directory
 dotenv.config({ path: path.join(__dirname, '../.env') });

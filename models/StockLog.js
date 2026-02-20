@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const stockLogSchema = new mongoose.Schema({
   productId: {
@@ -29,4 +29,4 @@ const stockLogSchema = new mongoose.Schema({
 });
 
 const StockLog = mongoose.model('StockLog', stockLogSchema);
-module.exports = StockLog;
+export default StockLog;

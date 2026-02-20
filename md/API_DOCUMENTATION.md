@@ -69,26 +69,29 @@ The Product API is designed to be highly flexible. Nested fields can accept **ei
 *   **Sample Body (JSON):**
     ```json
     {
-      "name": "MacBook Air M2",
-      "sku": "MBA-M2-8-256-SLV",
-      "slug": "macbook-air-m2-silver-2024",
-      "brand": "65ce...brand_id",
-      "category": "65ce...category_id",
+      "name": "Dell Latitude 7400",
+      "sku": "DELL-LAT-7400-I7-16-512",
+      "slug": "dell-latitude-7400-i7-8th-gen-16gb-512gb",
+      "brand": "Dell",
+      "category": "Expert Business",
       "specifications": {
-        "processor": "Apple M2 8-Core CPU", 
-        "ram": "{ size: '8GB', type: 'Unified', upgradeable: false }",
-        "storage": "256GB SSD",
-        "display": "13.6-inch Liquid Retina"
+        "processor": "Intel Core i7 8th Gen", 
+        "ram": "16GB DDR4",
+        "storage": "512GB NVMe SSD",
+        "display": "14\" FHD",
+        "graphics": "Intel UHD 620",
+        "os": "Windows 11 Pro"
       },
       "pricing": {
-        "originalPrice": 1099,
-        "sellingPrice": 999,
-        "discount": 100
+        "originalPrice": 48999,
+        "sellingPrice": 38999,
+        "discount": 10000
       },
-      "condition": "New - Factory Sealed",
+      "condition": "Certified Refurbished",
       "isLapzoneCertified": true,
+      "isVerified": true,
       "inventory": {
-        "quantity": 25,
+        "quantity": 10,
         "instock": "true"
       }
     }
@@ -140,6 +143,10 @@ The Product API is designed to be highly flexible. Nested fields can accept **ei
 ---
 
 ## 💡 Pro Tips for Developers
-1.  **Booleans**: You can send `"true"` or `"false"` as strings; the server will convert them to Boolean types.
+1.  **Booleans**: You can send `"true"` or `"false"` as strings; the server will convert them to Boolean types (applies to `inventory.instock`, `isLapzoneCertified`, and `isVerified`).
 2.  **Flexible Typing**: If you don't have all sub-fields for `specifications.ram` (like size, type, etc.), you can just send a single string: `"16GB DDR4"`. The system will save it without error.
 3.  **Images**: Use `multipart/form-data` for image uploads. The first image uploaded is automatically marked as `isPrimary: true`.
+4.  **Certification & Verification**: 
+    - Set `isLapzoneCertified: true` for the "LapZone Certified" badge.
+    - Set `isVerified: true` for the "Verified" badge seen in the top-left of the image.
+

@@ -1,5 +1,5 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
+import User from '../models/User.js';
+import jwt from 'jsonwebtoken';
 
 // Generate JWT token
 const generateToken = (id) => {
@@ -11,7 +11,7 @@ const generateToken = (id) => {
 // @desc    Login user & get token
 // @route   POST /api/auth/login
 // @access  Public
-const login = async (req, res) => {
+export const login = async (req, res) => {
   console.log('Login attempt, body:', req.body);
   const { email, password } = req.body || {};
 
@@ -37,7 +37,7 @@ const login = async (req, res) => {
 // @desc    Create a new staff account
 // @route   POST /api/users/create-staff
 // @access  Private/Owner
-const createStaff = async (req, res) => {
+export const createStaff = async (req, res) => {
   console.log('Request Body:', req.body);
   const { name, email, password } = req.body || {};
 
@@ -73,7 +73,7 @@ const createStaff = async (req, res) => {
 // @desc    Get all staff members
 // @route   GET /api/users/staffs
 // @access  Private/Owner
-const getStaffs = async (req, res) => {
+export const getStaffs = async (req, res) => {
   try {
     const staffs = await User.find({ role: 'STAFF' }).select('-password');
     res.json(staffs);
@@ -85,7 +85,7 @@ const getStaffs = async (req, res) => {
 // @desc    Delete a staff account
 // @route   DELETE /api/users/:id
 // @access  Private/Owner
-const deleteStaff = async (req, res) => {
+export const deleteStaff = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
 
@@ -98,11 +98,4 @@ const deleteStaff = async (req, res) => {
   } catch (error) {
     res.status(500).json({ msg: 'Server error' });
   }
-};
-
-module.exports = {
-  login,
-  createStaff,
-  getStaffs,
-  deleteStaff
 };

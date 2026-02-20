@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+import { createStaff, getStaffs, deleteStaff } from '../controllers/authController.js';
+import auth from '../middleware/auth.js';
+import checkRole from '../middleware/checkRole.js';
+
 const router = express.Router();
-const { createStaff, getStaffs, deleteStaff } = require('../controllers/authController');
-const auth = require('../middleware/auth');
-const checkRole = require('../middleware/checkRole');
 
 // All user routes protected for OWNER only
 router.use(auth, checkRole(['OWNER']));
@@ -11,4 +12,4 @@ router.post('/create-staff', createStaff);
 router.get('/staffs', getStaffs);
 router.delete('/:id', deleteStaff);
 
-module.exports = router;
+export default router;

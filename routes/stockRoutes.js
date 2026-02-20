@@ -1,10 +1,11 @@
-const express = require('express');
+import express from 'express';
+import { getStockLogs } from '../controllers/productController.js';
+import auth from '../middleware/auth.js';
+import checkRole from '../middleware/checkRole.js';
+
 const router = express.Router();
-const { getStockLogs } = require('../controllers/productController');
-const auth = require('../middleware/auth');
-const checkRole = require('../middleware/checkRole');
 
 // Owner only - view stock history/logs
 router.get('/logs', auth, checkRole(['OWNER']), getStockLogs);
 
-module.exports = router;
+export default router;

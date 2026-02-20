@@ -1,7 +1,7 @@
-const Product = require('../models/Product');
-const StockLog = require('../models/StockLog');
-const Brand = require('../models/Brand');
-const Category = require('../models/Category');
+import Product from '../models/Product.js';
+import StockLog from '../models/StockLog.js';
+import Brand from '../models/Brand.js';
+import Category from '../models/Category.js';
 
 // Helper to handle "Typable" fields and Boolean conversion
 const parseValue = (val) => {
@@ -27,7 +27,7 @@ const parseValue = (val) => {
 // @desc    Get all products
 // @route   GET /api/products
 // @access  Public
-const getProducts = async (req, res) => {
+export const getProducts = async (req, res) => {
   try {
     const products = await Product.find({});
     res.json(products);
@@ -39,7 +39,7 @@ const getProducts = async (req, res) => {
 // @desc    Get single product
 // @route   GET /api/products/:id
 // @access  Public
-const getProductById = async (req, res) => {
+export const getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     if (product) {
@@ -55,7 +55,7 @@ const getProductById = async (req, res) => {
 // @desc    Create a product
 // @route   POST /api/products
 // @access  Private/Staff/Owner
-const createProduct = async (req, res) => {
+export const createProduct = async (req, res) => {
   try {
     const body = req.body;
     
@@ -103,7 +103,7 @@ const createProduct = async (req, res) => {
 // @desc    Update a product
 // @route   PUT /api/products/:id
 // @access  Private/Staff/Owner
-const updateProduct = async (req, res) => {
+export const updateProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
 
@@ -153,7 +153,7 @@ const updateProduct = async (req, res) => {
 // @desc    Delete a product
 // @route   DELETE /api/products/:id
 // @access  Private/Owner
-const deleteProduct = async (req, res) => {
+export const deleteProduct = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
 
@@ -179,7 +179,7 @@ const deleteProduct = async (req, res) => {
 // @desc    Update stock only
 // @route   PATCH /api/products/:id/stock
 // @access  Private/Staff/Owner
-const updateStock = async (req, res) => {
+export const updateStock = async (req, res) => {
   try {
     const { quantity } = req.body;
     const product = await Product.findById(req.params.id);
@@ -216,7 +216,7 @@ const updateStock = async (req, res) => {
 // @desc    Get stock logs
 // @route   GET /api/stock/logs
 // @access  Private/Owner
-const getStockLogs = async (req, res) => {
+export const getStockLogs = async (req, res) => {
   try {
     const logs = await StockLog.find({})
       .populate('productId', 'name sku')
@@ -226,14 +226,4 @@ const getStockLogs = async (req, res) => {
   } catch (error) {
     res.status(500).json({ msg: 'Server error', error: error.message });
   }
-};
-
-module.exports = {
-  getProducts,
-  getProductById,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-  updateStock,
-  getStockLogs
 };

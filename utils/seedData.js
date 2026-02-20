@@ -1,8 +1,12 @@
-const mongoose = require('mongoose');
-const Brand = require('../models/Brand');
-const Category = require('../models/Category');
-const dotenv = require('dotenv');
-const path = require('path');
+import mongoose from 'mongoose';
+import Brand from '../models/Brand.js';
+import Category from '../models/Category.js';
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
