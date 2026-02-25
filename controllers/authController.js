@@ -24,6 +24,7 @@ export const login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        image: user.image,
         token: generateToken(user._id)
       });
     } else {
@@ -52,7 +53,8 @@ export const createStaff = async (req, res) => {
       name,
       email,
       password,
-      role: 'STAFF'
+      role: 'STAFF',
+      image: req.file ? req.file.path : undefined
     });
 
     if (user) {
@@ -60,7 +62,8 @@ export const createStaff = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        role: user.role
+        role: user.role,
+        image: user.image
       });
     } else {
       res.status(400).json({ msg: 'Invalid user data' });

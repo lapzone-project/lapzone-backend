@@ -71,8 +71,9 @@ export const createProduct = async (req, res) => {
     })) : [];
 
     // Merge uploaded images with any provided in the JSON body
+    const initialImages = Array.isArray(processedData.images) ? processedData.images : (processedData.images ? [processedData.images] : []);
     const finalImages = [
-      ...(Array.isArray(processedData.images) ? processedData.images : (processedData.images ? [processedData.images] : [])),
+      ...initialImages,
       ...uploadedImages
     ];
 
@@ -111,9 +112,14 @@ export const updateProduct = async (req, res) => {
       const body = req.body;
       const oldStock = product.inventory?.quantity || 0;
 
+      // Fields to NOT update via the dynamic loop
+      const protectedFields = ['_id', 'createdBy', 'updatedBy', 'createdAt', 'updatedAt'];
+
       // Update fields with parsing logic
       for (const key in body) {
-        product[key] = parseValue(body[key]);
+        if (!protectedFields.includes(key)) {
+          product[key] = parseValue(body[key]);
+        }
       }
 
       if (req.files && req.files.length > 0) {
@@ -121,8 +127,10 @@ export const updateProduct = async (req, res) => {
           url: file.path,
           isPrimary: false
         }));
-        // Merge with existing images (which might have been updated from body just above)
-        product.images = [...(product.images || []), ...uploadedImages];
+
+        // Ensure product.images is an array before spreading
+        const currentImages = Array.isArray(product.images) ? product.images : [];
+        product.images = [...currentImages, ...uploadedImages];
       }
 
       product.updatedBy = req.user._id;
@@ -146,7 +154,12 @@ export const updateProduct = async (req, res) => {
     }
   } catch (error) {
     console.error('Update Error:', error);
-    res.status(500).json({ msg: 'Server error', error: error.message });
+    // Provide specific error message if it's a validation or cast error
+    res.status(500).json({
+      msg: 'Server error during product update',
+      error: error.message,
+      details: error.errors ? Object.keys(error.errors).map(key => error.errors[key].message) : undefined
+    });
   }
 };
 

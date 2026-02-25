@@ -9,13 +9,13 @@ const productSchema = new mongoose.Schema({
   sku: {
     type: String,
     required: true,
-    unique: true,
+    // unique: true,
     trim: true
   },
   slug: {
     type: String,
     required: true,
-    unique: true,
+    // unique: true,
     lowercase: true,
     trim: true
   },
@@ -23,7 +23,10 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.Mixed // 100% Typable - no ref
   },
   category: {
-    type: mongoose.Schema.Types.Mixed // 100% Typable - no ref
+    type: String,
+    required: true,
+    lowercase: true,
+    trim: true
   },
   specifications: { type: mongoose.Schema.Types.Mixed },
   pricing: { type: mongoose.Schema.Types.Mixed },
@@ -35,6 +38,10 @@ const productSchema = new mongoose.Schema({
   isVerified: {
     type: Boolean,
     default: false
+  },
+  currStock: {
+    type: Boolean,
+    default: true
   },
   images: { type: mongoose.Schema.Types.Mixed },
   inventory: {
